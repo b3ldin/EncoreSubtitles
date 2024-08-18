@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Text;
 namespace encsub {
     class Program
     {
         static void Main(string[] args)
         {
-            
             if (args.Length > 0 && Path.GetExtension(args[0]) ==".srt")
             {
                 byte fps;
@@ -39,7 +39,7 @@ namespace encsub {
             }
             int line = 0;
             int border = srtlength();
-            string output = "", temp = "";
+            string output = "", temp;
             StreamReader srtfile = new StreamReader(args[0]);
             StreamWriter txtfile = new StreamWriter("script_"+Path.GetFileNameWithoutExtension(args[0])+".txt");
             while (line < border)
@@ -56,20 +56,20 @@ namespace encsub {
                 txtfile.WriteLine(output);
                 output = "";
                 temp = srtfile.ReadLine();
-
+                if (temp!=null){
                 if (temp.Length != 0)
                 {
                     output += temp;
                     txtfile.WriteLine(output);
                     temp = srtfile.ReadLine();
-                }
+                }}
                 output = "";
                 if (temp!=null){
                     if (temp.Length != 0)
                 {
                     output += temp;
                     txtfile.WriteLine(output);
-                    temp = srtfile.ReadLine();
+                    //temp = srtfile.ReadLine();
                 }
                 }
                 output = "";
@@ -77,10 +77,11 @@ namespace encsub {
                 txtfile.Close();
                 srtfile.Close();
                 Console.WriteLine("Done!");
+               // Console.WriteLine(srtfile.CurrentEncoding+"   ");
                 Console.ReadLine();
             }
-            else Console.WriteLine("Drag and drop SRT file on EXE, don't double click it or some other stuff idk"); 
-            Console.ReadLine();
+            else{ Console.WriteLine("Drag and drop SRT file on EXE, don't double click it or some other stuff idk"); 
+            Console.ReadLine();}
         }
     }
 }
